@@ -1,4 +1,5 @@
 Flask
+flask-admin
 Flask-SQLAlchemy
 Flask-WTF
-flask-admin
+requests
