@@ -27,7 +27,7 @@ class Meal(db.Model):
     price = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(500), nullable=False)
     picture = db.Column(db.String(50), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     category = db.relationship('Category', back_populates='meals')
     orders = db.relationship(
         'Order', secondary=orders_meals_association, back_populates='meals')
