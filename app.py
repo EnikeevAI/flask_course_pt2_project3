@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 from models import User, Meal, Category, Order
 
 
@@ -12,7 +13,20 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def main():
-    return render_template('main.html')
+    categories_meals = {}
+    categories = db.session.query(Category).all()
+    for category in categories:
+        categories_meals[category] = []
+        meals = db.session.query(Meal).filter(
+            Meal.category_id == category.id).all()            
+        for meal in meals:
+            categories_meals[category].append(meal)
+    return render_template('main.html', category_meals=categories_meals)
+
+@app.route('/addtocart/<meal_id>')
+def addtocart(meal_id):
+    print(meal_id)
+    return redirect(url_for('render_cart'))
 
 @app.route('/cart/')
 def render_cart():
