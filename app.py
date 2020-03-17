@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from models import User, Meal, Category, Order
 
 
 app = Flask(__name__)
