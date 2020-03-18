@@ -42,7 +42,16 @@
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <a class=" h5 my-2 text-white bg-dark" href="/">Stepik Delivery</a>
             </ul>
-            <a class="my-2 text-white bg-dark " href="/cart/">Корзина (2 блюда 455 руб.)</a>
+            <a class="my-2 text-white bg-dark " href="/cart/">
+                {% if cart.meals_numb == 0 %}
+                Корзина пуста
+                {% elif cart.meals_numb == 1 %}
+                Корзина ({{cart.meals_numb}} блюдо {{cart.total_price}} руб.)
+                {% elif cart.meals_numb > 1 and cart.meals_numb <= 4 %}
+                Корзина ({{cart.meals_numb}} блюда {{cart.total_price}} руб.)
+                {% elif cart.meals_numb > 4 %}
+                Корзина ({{cart.meals_numb}} блюд {{cart.total_price}} руб.)
+                {% endif %} </a>
             <img class="ml-2" src="../static/picture/smile.jpeg" lt="" width="24" height="25">
             <a href="#" class="btn btn-warning btn-sm ml-4">Войти</a>
             <a href="#" class="btn btn-light btn-sm ml-4 d-none">Выйти</a>
