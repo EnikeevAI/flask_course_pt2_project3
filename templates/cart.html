@@ -2,8 +2,9 @@
 
 <main class="container">
     <h1 class="h3 my-4">Корзина</h1>
-
-    <div class="alert alert-warning" role="alert">Блюдо удалено из корзины</div>
+    {% if trash != None %}
+    <div class="alert alert-warning" role="alert">Блюдо {{cart.trash_meal.title}} удалено из корзины <a href="/addtocart/{{cart.trash_meal.id}}">Отменить</a></div>
+    {% endif %}
     <div class="alert alert-warning" role="alert">Чтобы сделать заказ – <a href="/login.html">войдите</a> или <a href="/register.html">зарегистрируйтесь</a></div>
 
     <div class="row mt-5">
@@ -63,7 +64,7 @@
                         <td></td>
                         <td>1</td>
                         <td>{{meal.price}}</td>
-                        <td><a class="text-danger" href="#">Удалить</a></td>
+                        <td><a class="text-danger" href="/addtotrash/{{meal.id}}">Удалить</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

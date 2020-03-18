@@ -10,7 +10,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///enikeev_project3.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-#user_cart = {'meals_numb': 0, 'total_price': 0}
 @app.route('/')
 def main():
     cart = session.get('cart', [])
@@ -33,35 +32,48 @@ def main():
 @app.route('/addtocart/<meal_id>')
 def addtocart(meal_id):
     cart = session.get('cart', [])
-    total_price = 0
+    total_price = session.get('total_price', 0)
     meal = db.session.query(Meal).filter(
                 Meal.id == meal_id).one_or_none()
     total_price += meal.price
     cart.append(meal_id)
+    session['trash'] = None
     session['cart'] = cart
-    print(session['cart'])
-    if len(cart) > 0:
-        for meal_id in cart:
-            meal = db.session.query(Meal).filter(
+    session['total_price'] = total_price
+    return redirect(url_for('render_cart'))
+
+@app.route('/addtotrash/<meal_id>')
+def addtotrash(meal_id):
+    cart = session.get('cart')
+    total_price = session.get('total_price')
+    meal = db.session.query(Meal).filter(
                 Meal.id == meal_id).one_or_none()
-            total_price += meal.price
-            print(total_price)
+    cart.remove(meal_id)
+    total_price -= meal.price
+    session['trash'] = meal.id
+    session['cart'] = cart
     session['total_price'] = total_price
     return redirect(url_for('render_cart'))
 
 @app.route('/cart/')
 def render_cart():
     meals = []
+    trash = session.get('trash', None)
+    if trash != None:
+        trash_meal = db.session.query(Meal).filter(
+                Meal.id == trash).one_or_none()
+    else: trash_meal = None
     cart = session.get('cart', [])
     total_price = session.get('total_price', 0)
     user_cart = {'meals_numb': len(cart), 
-                'total_price': total_price}      
+                'total_price': total_price,
+                'trash_meal': trash_meal}      
     if len(cart) > 0:
         for meal_id in cart:
             meal = db.session.query(Meal).filter(
                 Meal.id == meal_id).one_or_none()
             meals.append(meal)
-    return render_template('cart.html', cart=user_cart, meals=meals)
+    return render_template('cart.html', cart=user_cart, meals=meals, trash=trash)
 
 @app.route('/account/')
 def render_account():
