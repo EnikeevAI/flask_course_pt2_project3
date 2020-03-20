@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, session, url_for 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from forms import CartForm
 from models import User, Meal, Category, Order
 
 
@@ -58,6 +59,8 @@ def addtotrash(meal_id):
 @app.route('/cart/')
 def render_cart():
     meals = []
+    if session.get('is_auth'): user_access = True
+    else: user_access = False
     trash = session.get('trash', None)
     if trash != None:
         trash_meal = db.session.query(Meal).filter(
@@ -67,13 +70,21 @@ def render_cart():
     total_price = session.get('total_price', 0)
     user_cart = {'meals_numb': len(cart), 
                 'total_price': total_price,
-                'trash_meal': trash_meal}      
+                'trash_meal': trash_meal,
+                'user_access': user_access}      
     if len(cart) > 0:
         for meal_id in cart:
             meal = db.session.query(Meal).filter(
                 Meal.id == meal_id).one_or_none()
             meals.append(meal)
-    return render_template('cart.html', cart=user_cart, meals=meals, trash=trash)
+    cart_form = CartForm()
+    #if cart_form.validate_on_submit:
+        #return redirect('/ordered')
+    return render_template('cart.html', 
+                            cart=user_cart,
+                            form=cart_form, 
+                            meals=meals, 
+                            trash=trash)
 
 @app.route('/account/')
 def render_account():
