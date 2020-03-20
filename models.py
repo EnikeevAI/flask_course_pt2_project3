@@ -14,10 +14,10 @@ orders_meals_association = db.Table('orders_meals',
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    mail = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(50), nullable=False)
-    address = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50))
+    mail = db.Column(db.String(50), nullable=False, unique=True)
+    password = db.Column(db.String(50), nullable=False, unique=True)
+    address = db.Column(db.String(50))
     orders = db.relationship('Order', back_populates='user_order')
 
 class Meal(db.Model):
