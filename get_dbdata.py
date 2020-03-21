@@ -30,6 +30,12 @@ def add_db_data(categories=categories, meals=meals):
                     category=category_db
                     )
                 db.session.add(meal_db)
+    admin_user = User(
+                    name="Admin",
+                    mail="Admin@adminmail.com",
+                    role="Admin")
+    admin_user.password = "Admin"
+    db.session.add(admin_user)
     db.session.commit()
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request, session, url_for 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
-from forms import CartForm
+from forms import CartForm, UserForm
 from models import User, Meal, Category, Order
 
 
@@ -94,9 +94,19 @@ def render_account():
 def render_login():
     return render_template('login.html')
 
-@app.route('/register/')
+@app.route('/register/', methods=['GET', 'POST'])
 def render_register():
-    return render_template('register.html')
+    register_form = UserForm()
+    if request.method == 'POST' and register_form.validate_on_submit():
+        usermail = request.form.get("userMail")
+        password = request.form.get("userPassword")
+        new_user = User(mail=usermail,
+                        role="Client")
+        new_user.password = password
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('render_login'))
+    return render_template('register.html', form=register_form)
 
 @app.route('/logout/')
 def render_logout():

@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///enikeev_project3.db'
@@ -16,9 +17,21 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     mail = db.Column(db.String(50), nullable=False, unique=True)
-    password = db.Column(db.String(50), nullable=False, unique=True)
+    password_hash = db.Column(db.String(128), nullable=False, unique=True)
     address = db.Column(db.String(50))
+    role = db.Column(db.String(50), nullable=False)
     orders = db.relationship('Order', back_populates='user_order')
+
+    @property
+    def password(self):
+        raise AttributeError("Вам не нужно знать пароль!")
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+    
+    def password_valid(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Meal(db.Model):
     __tablename__ = 'meals'
