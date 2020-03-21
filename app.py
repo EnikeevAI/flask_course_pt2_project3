@@ -90,7 +90,7 @@ def render_cart():
 def render_account():
     return render_template('account.html')
 
-@app.route('/login/')
+@app.route('/login/', methods=['GET', 'POST'])
 def render_login():
     return render_template('login.html')
 
