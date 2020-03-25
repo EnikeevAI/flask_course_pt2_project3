@@ -3,9 +3,11 @@
 <main class="container">
     <h1 class="h3 my-4">Корзина</h1>
     {% if trash != None %}
-    <div class="alert alert-warning" role="alert">Блюдо {{cart.trash_meal.title}} удалено из корзины <a href="/addtocart/{{cart.trash_meal.id}}">Отменить</a></div>
+    <div class="alert alert-warning" role="alert">Блюдо {{cart.trash_meal.title}} удалено из корзины <a
+            href="/addtocart/{{cart.trash_meal.id}}">Отменить</a></div>
     {% endif %} {% if user_access != True %}
-    <div class="alert alert-warning" role="alert">Чтобы сделать заказ – <a href="/login/">войдите</a> или <a href="/register/">зарегистрируйтесь</a></div>
+    <div class="alert alert-warning" role="alert">Чтобы сделать заказ – <a href="/login/">войдите</a> или <a
+            href="/register/">зарегистрируйтесь</a></div>
     {% endif %}
     <div class="row mt-5">
 
@@ -15,26 +17,32 @@
                 <h4 class="">Ваши данные</h4>
                 <div class=" md-4 order-md-1">
                     <div class="mt-3 mb-3">
-                        {{ form.clientName.label }} {{ form.clientName(class="font-weight-bold form-control") }} {% for error in form.clientName.errors %}
+                        {{ form.clientName.label }}
+                        {{ form.clientName(class="font-weight-bold form-control") }}
+                        {% for error in form.clientName.errors %}
                         <p class="error">{{ error }}</p>
                         {% endfor %}
                     </div>
                 </div>
                 <div class=" md-4 order-md-1">
                     <div class="mt-3 mb-3">
-                        {{ form.clientAddress.label }} {{ form.clientAddress(class="font-weight-bold form-control") }} {% for error in form.clientAddress.errors %}
+                        {{ form.clientAddress.label }}
+                        {{ form.clientAddress(class="font-weight-bold form-control") }}
+                        {% for error in form.clientAddress.errors %}
                         <p class="error">{{ error }}</p>
                         {% endfor %}
                     </div>
                 </div>
                 <div class="md-4 form-label-group">
-                    {{ form.clientMail.label }} {{ form.clientMail(class="form-control") }} {% for error in form.clientMail.errors %}
+                    {{ form.clientMail.label }} {{ form.clientMail(class="form-control") }} {% for error in
+                    form.clientMail.errors %}
                     <p class="error">{{ error }}</p>
                     {% endfor %}
                 </div>
                 <div class=" md-4 order-md-1">
                     <div class="mt-3 mb-3">
-                        {{ form.clientPhone.label }} {{ form.clientPhone(class="font-weight-bold form-control") }} {% for error in form.clientPhone.errors %}
+                        {{ form.clientPhone.label }} {{ form.clientPhone(class="font-weight-bold form-control") }} {%
+                        for error in form.clientPhone.errors %}
                         <p class="error">{{ error }}</p>
                         {% endfor %}
                     </div>
@@ -42,28 +50,30 @@
                     {{ form.cartSumm(value=cart.total_price) }} {{ form.cartMeals(valuee=meals) }}
 
                 </div>
-                {{ form.csrf_token }} {% if user_access == True %} {{ form.submit(class=" mt-3 mb-5 btn btn-danger") }} {% endif %}
+                {{ form.csrf_token }} {% if user_access == True %} {{ form.submit(class=" mt-3 mb-5 btn btn-danger") }}
+                {% endif %}
             </form>
         </div>
-
 
 
         <div class="col-1"></div>
         <div class="col-7">
             <h4 class="mb-3 col-7 mb-5">
-                {% if cart.meals_numb == 0 %} Корзина пуста {% elif cart.meals_numb == 1 %} Одно блюдо в корзине {% elif cart.meals_numb > 1 and cart.meals_numb
-                <=4 %} {{cart.meals_numb}} блюда в корзине {% elif cart.meals_numb> 4 %} {{cart.meals_numb}} блюд в корзине {% endif %} </h4>
+                {% if cart.meals_numb == 0 %} Корзина пуста {% elif cart.meals_numb == 1 %} Одно блюдо в корзине {% elif
+                cart.meals_numb > 1 and cart.meals_numb
+                <=4 %} {{cart.meals_numb}} блюда в корзине {% elif cart.meals_numb> 4 %} {{cart.meals_numb}} блюд в
+                корзине {% endif %} </h4>
             <table class="table">
                 <tbody>
-                    {% for meal in meals %}
-                    <tr>
-                        <th scope="row">{{meal.title}}</th>
-                        <td></td>
-                        <td>1</td>
-                        <td>{{meal.price}}</td>
-                        <td><a class="text-danger" href="/addtotrash/{{meal.id}}">Удалить</a></td>
-                    </tr>
-                    {% endfor %}
+                {% for meal in meals %}
+                <tr>
+                    <th scope="row">{{meal.title}}</th>
+                    <td></td>
+                    <td>1</td>
+                    <td>{{meal.price}}</td>
+                    <td><a class="text-danger" href="/addtotrash/{{meal.id}}">Удалить</a></td>
+                </tr>
+                {% endfor %}
                 </tbody>
             </table>
             <hr>
