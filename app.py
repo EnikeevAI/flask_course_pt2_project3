@@ -1,4 +1,6 @@
 import datetime
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 from flask import Flask, redirect, render_template, request, session, url_for 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
@@ -11,6 +13,12 @@ app.secret_key = 'Enikeev-project3-secret-phrase'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///enikeev_project3.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+admin = Admin(app)
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Category, db.session))
+admin.add_view(ModelView(Meal, db.session))
+admin.add_view(ModelView(Order, db.session))
 
 @app.route('/')
 def main():
