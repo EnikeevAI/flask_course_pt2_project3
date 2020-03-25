@@ -9,8 +9,6 @@
             <p class="pt-4">Доставка дронами</p>
         </div>
     </section>
-
-
     {% for category in category_meals %}
     <section>
         <h3 class="my-4">{{category.title}}</h3>
@@ -18,20 +16,6 @@
             {% for meal in category_meals[category] %}
             <div class="col-12 col-md-4 ramka">
                 <div class="card mb-3">
-                    <style>
-                        .card {
-                            max-height: auto;
-                            height: 100%;
-                            max-width: auto;
-                            width: 100%;
-                            border: 1px solid #b8b8b8;
-                        }
-                        
-                        .ramka {
-                            padding: 15px;
-                            box-sizing: border-box;
-                        }
-                    </style>
                     <img src="../static/picture/{{meal.picture}}" width="300" height="200" class="card-img-top" alt="">
                     <div class="card-body">
                         <h4 class="h5 card-title">{{meal.title}}</h4>

@@ -19,16 +19,29 @@
                         <p class="h5 font-weight-light">Создайте аккаунт</p>
                     </div>
                     <div class="mt-5 form-label-group">
+                        {{ form.userName.label }} {{ form.userName(class="form-control") }}
+                    </div>
+                    {% for error in form.userName.errors %}
+                    <p class="error">{{ error }}</p>
+                    {% endfor %}
+                    <div class="form-label-group">
                         {{ form.userMail.label }} {{ form.userMail(class="form-control") }}
                     </div>
                     {% for error in form.userMail.errors %}
                     <p class="error">{{ error }}</p>
+                    {% endfor %} {% if error_msg != None %} {{error_msg}} {% endif %}
+                    <div class="form-label-group">
+                        {{ form.userPassword.label }} {{ form.userPassword(class="form-control") }}
+                    </div>
+                    {% for error in form.userPassword.errors %}
+                    <p class="error">{{ error }}</p>
                     {% endfor %}
                     <div class="form-label-group">
-                        {{ form.userPassword.label }} {{ form.userPassword(class="form-control") }} {% for error in form.userPassword.errors %}
-                        <p class="error">{{ error }}</p>
-                        {% endfor %}
+                        {{ form.userAddress.label }} {{ form.userAddress(class="form-control") }}
                     </div>
+                    {% for error in form.userAddress.errors %}
+                    <p class="error">{{ error }}</p>
+                    {% endfor %}
                     <div class="checkbox mb-3"></div>
                     {{ form.csrf_token }} {{ form.submit(class="btn btn-lg btn-danger btn-block") }}
                 </form>
